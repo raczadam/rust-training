@@ -1,4 +1,24 @@
 fn main() {
+    basics();
+    scope_example();
+
+    let x1 = 40;
+    let mut x2 = x1;
+    x2 = x1 - 2; // do not change this
+    println!("x1 is: {} and x2 is: {}", x1, x2); // do not change this
+}
+
+fn scope_example() {
+    let x: i8 = 10;
+    println!("The value of x is: {x}");
+    {
+        let x = x + 15;
+        println!("The value of x is: {x} (in the scope)");
+    }
+    println!("The value of x is: {x} (after the scope)");
+}
+
+fn basics() {
     let x = 6;
     println!("The value of x is {}", x);
     // x = 5; => it will not work, we cannot assign twice to immutable variable `x`
@@ -25,7 +45,7 @@ fn main() {
     println!("default_integer (octal) value is: {}", default_integer);
 
     let default_integer = 0b010101010001010101011010100101; // or binary
-    println!("default_integer (binary) value is: {}", default_integer);    
+    println!("default_integer (binary) value is: {}", default_integer);
 
     let one_byte: u8 = 255; // unsigned: can't be negative
     println!("byte value is: {}", one_byte);
@@ -38,5 +58,4 @@ fn main() {
 
     let y: f32 = 3.0; // f32
     println!("The value of y is {}", y);
-    
 }
