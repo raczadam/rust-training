@@ -1,6 +1,8 @@
 fn main() {
     basics();
     scope_example();
+    type_aliases();
+    type_conversion();
 }
 
 fn scope_example() {
@@ -11,6 +13,20 @@ fn scope_example() {
         println!("The value of x is: {x} (in the scope)");
     }
     println!("The value of x is: {x} (after the scope)");
+}
+
+fn type_aliases() {
+    type Age = u8;
+
+    let adam_age: Age = 36;
+    println!("Age: {}", adam_age)
+}
+
+fn type_conversion() {
+    let age: u8 = 36;
+    println!("Age: {}", age);
+    let age_float = age as f32;
+    println!("Age: {}", age_float);
 }
 
 fn basics() {
