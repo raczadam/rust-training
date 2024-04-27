@@ -1,3 +1,6 @@
+use std::i32;
+
+use colored::Colorize;
 fn main() {
     problem_1();
     problem_2();
@@ -5,6 +8,8 @@ fn main() {
     problem_4();
     problem_5();
     problem_6();
+
+    problem_plus_one(100);
 }
 
 // Problem 1:
@@ -17,6 +22,7 @@ Next, compute the sum of the squares as (1^2 + 2^2 + 3^2 + 4^2 + 5^2) = (1 + 4 +
 Finally, calculate the difference as 225 - 55 = 170.
 */
 fn problem_1() {
+    println!("{}", "Problem1 - Type an i32 number!".green());
     let mut n = String::new();
     std::io::stdin()
         .read_line(&mut n)
@@ -25,7 +31,16 @@ fn problem_1() {
 
     let mut square_of_sum = 0;
     let mut sum_of_squares = 0;
-    /* Complete the code after this line */
+
+    let mut i = 0;
+    while n > i {
+        i += 1;
+        square_of_sum = square_of_sum + i;
+        sum_of_squares = sum_of_squares + i.pow(2);
+    }
+    square_of_sum = square_of_sum.pow(2);
+    println!("square_of_sum: {}", square_of_sum);
+    println!("sum_of_squares: {}", sum_of_squares);
 }
 
 // Problem 2:
@@ -40,6 +55,7 @@ The sum will be calculated as follows: 3 + 5 + 6 + 9 + 10 + 12 + 15 + 18.
 Write a program that takes the user input N, performs the necessary calculations, and outputs the sum.
 */
 fn problem_2() {
+    println!("{}", "Problem1 - Type an i32 number!".blue());
     let mut n = String::new();
     std::io::stdin()
         .read_line(&mut n)
@@ -47,6 +63,16 @@ fn problem_2() {
     let n: i32 = n.trim().parse().expect("invalid input");
 
     /* Add your code below this line */
+
+    let mut sum: i32 = 0;
+    let mut counter: i32 = 0;
+    while counter < n {
+        if counter % 3 == 0 || counter % 5 == 0 {
+            sum = sum + counter;
+        }
+        counter += 1;
+    }
+    println!("The amount of sum is: {}", sum);
 }
 
 // Problem 3:
@@ -76,16 +102,22 @@ fn problem_3() {
 }
 
 fn total_production(hours: u8, speed: u8) -> f32 {
-    let success_rate: f32;
-
-    /* Your code below this line*/
-    return 0.0;
+    let success_rate: f32 = success_rate(speed);
+    return 221.0 * (hours as f32) * (speed as f32) * success_rate;
 }
 
 fn cars_produced_per_minutes(hours: u8, speed: u8) -> f32 {
-    let success_rate: f32;
-    /* Your code below this line*/
-    return 0.0;
+    return total_production(hours, speed) / (60.0 * hours as f32);
+}
+
+fn success_rate(speed: u8) -> f32 {
+    if speed <= 4 {
+        return 1.0;
+    } else if speed >= 5 && speed <= 8 {
+        return 0.9;
+    } else {
+        return 0.77;
+    }
 }
 
 // Problem 4:
@@ -103,11 +135,31 @@ fn problem_4() {
         "It is {:?} that the given string is palindrome",
         palindrome(input)
     );
+
+    let input = String::from("1221");
+    println!(
+        "It is {:?} that the given string is palindrome",
+        palindrome(input)
+    );
 }
 
 fn palindrome(input: String) -> bool {
-    /* Your Code here */
-    return false;
+    if input.len() == 0 {
+        return true;
+    }
+    let mut last = input.len() - 1;
+    let mut first = 0;
+
+    let my_vec = input.as_bytes();
+
+    while first < last {
+        if my_vec[first] != my_vec[last] {
+            return false;
+        }
+        first += 1;
+        last -= 1;
+    }
+    return true;
 }
 
 // Problem 5:
@@ -118,7 +170,18 @@ These triples are commonly written as (a, b, c), and a well-known example is (3,
 Write a program that computes the Pythagorean triplet such that a < b < c and a + b + c = 1000.
 */
 fn problem_5() {
-    /* Your Code here */
+    for a in 1..=1000 {
+        for b in a..=1000 - a {
+            let c = 1000 - a - b;
+            if is_pythagorean_triplet(a, b, c) {
+                println!("Got a triplet {:?}", (a, b, c));
+            }
+        }
+    }
+}
+
+fn is_pythagorean_triplet(a: i32, b: i32, c: i32) -> bool {
+    a * a + b * b == c * c
 }
 
 // Problem 6:
@@ -127,9 +190,31 @@ fn problem_5() {
 Write a function that implements the logic,
 'You can see the movie if you are 17 or older, or if you are 13 or older and have a parent's permission.'
 */
-fn problem_6() {}
+fn problem_6() {
+    println!("{}", can_see_movie(17, false));
+    println!("{}", can_see_movie(13, true));
+    println!("{}", can_see_movie(13, false));
+}
 
 fn can_see_movie(age: i32, permission: bool) -> bool {
     // Write your code here to implement the logic
-    return false; // Remove 'return false' once you have written the code
+    (age >= 17) || (age >= 13 && permission)
+}
+
+/*
+   Print all pythagorean triplet, where a, b, or c side is less, than param number.
+*/
+fn problem_plus_one(number: i16) {
+    let mut counter: i64 = 0;
+    for a in 1..=number {
+        for b in (a + 1)..number {
+            for c in (b + 1)..number {
+                counter += 1;
+                if is_pythagorean_triplet(a as i32, b as i32, c as i32) {
+                    println!("Got a triplet {:?}", (a, b, c));
+                }
+            }
+        }
+    }
+    println!("Available steps: {}", counter);
 }
